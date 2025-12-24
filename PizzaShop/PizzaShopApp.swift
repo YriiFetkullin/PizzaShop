@@ -7,11 +7,14 @@
 
 import SwiftUI
 
+// хранит размеры экрана устройства на котором запущено приложение
+let screen = UIScreen.main.bounds
+
 @main
 struct PizzaShopApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            AuthView()
         }
     }
 }
