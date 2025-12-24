@@ -14,12 +14,14 @@ struct CatalogView: View {
 
     var body: some View {
         ScrollView(.vertical, showsIndicators: false) {
+
             Section("Рекомендуемые") {
                 ScrollView(.horizontal, showsIndicators: false) {
                     LazyHGrid(rows: layoutForPopular, spacing: 12) {
                         ForEach(CatalogViewModel.shared.popularProducts, id: \.id) { item in
                             NavigationLink {
-                                ProductDetailView(product: item)
+                                let viewModel = ProductDetailViewModel(product: item)
+                                ProductDetailView(viewModel: viewModel)
                             } label: {
                                 ProductCell(product: item)
                                     .foregroundStyle(Color(.black))
@@ -35,7 +37,8 @@ struct CatalogView: View {
                     LazyVGrid(columns: layoutForPizza, spacing: 60) {
                         ForEach(CatalogViewModel.shared.pizza, id: \.id) { item in
                             NavigationLink {
-                                ProductDetailView(product: item)
+                                let viewModel = ProductDetailViewModel(product: item)
+                                ProductDetailView(viewModel: viewModel)
                             } label: {
                                 ProductCell(product: item)
                                     .foregroundStyle(Color(.black))
