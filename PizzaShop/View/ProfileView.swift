@@ -16,7 +16,11 @@ struct ProfileView: View {
     var body: some View {
         VStack(alignment: .center) {
             HStack(spacing: 16) {
-                Image(systemName: "person.circle")
+                Image("user")
+                    .resizable()
+                    .frame(width: 80, height: 80)
+                    .background(Color("bgUser"))
+                    .clipShape(.circle)
                     .onTapGesture {
                         isAvaAlertPresented.toggle()
                     }
