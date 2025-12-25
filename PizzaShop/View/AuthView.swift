@@ -13,6 +13,8 @@ struct AuthView: View {
     @State private var email = ""
     @State private var password = ""
     @State private var confirmPassword = ""
+    @State private var isShowAlert = false
+    @State private var alertMessage = ""
 
     @State private var isTabViewShow = false
 
@@ -55,10 +57,28 @@ struct AuthView: View {
                         isTabViewShow.toggle()
                     } else {
                         print("Регистрация пользователя")
-                        self.email = ""
-                        self.password = ""
-                        self.confirmPassword = ""
-                        self.isAuth.toggle()
+
+                        guard password == confirmPassword else {
+                            self.alertMessage = "Пароли не совпадают"
+                            self.isShowAlert.toggle()
+                            return
+                        }
+
+                        AuthService.shared.signUp(email: self.email,
+                                                  password: self.password) { result in
+                            switch result {
+                            case .success(let user):
+                                alertMessage = "Вы зарегстрировались с email \(String(describing: user.email))"
+                                self.isShowAlert.toggle()
+                                self.email = ""
+                                self.password = ""
+                                self.confirmPassword = ""
+                                self.isAuth.toggle()
+                            case .failure(let error):
+                                alertMessage = "Ошибка регистрации \(error.localizedDescription)!"
+                                self.isShowAlert.toggle()
+                            }
+                        }
                     }
                 } label: {
                     Text(isAuth ? "Войти" : "Создать аккаунт")
@@ -90,6 +110,13 @@ struct AuthView: View {
             .background(Color("whiteAlpha"))
             .cornerRadius(24)
             .padding(isAuth ? 30 : 12)
+            .alert(alertMessage,
+                   isPresented: $isShowAlert) {
+                Button { } label: {
+                    Text("OK")
+                }
+
+            }
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .background(Image("bg")
