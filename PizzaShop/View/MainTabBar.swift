@@ -8,6 +8,9 @@
 import SwiftUI
 
 struct MainTabBar: View {
+
+    var viewModel: MainTabBarViewModel
+
     var body: some View {
         TabView {
             NavigationView {
@@ -37,8 +40,4 @@ struct MainTabBar: View {
                 }
         }
     }
-}
-
-#Preview {
-    MainTabBar()
 }

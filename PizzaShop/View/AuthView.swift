@@ -54,7 +54,17 @@ struct AuthView: View {
                 Button {
                     if isAuth {
                         print("Авторизация пользователя")
-                        isTabViewShow.toggle()
+
+                        AuthService.shared.signIn(email: self.email,
+                                                  password: self.password) { result in
+                            switch result {
+                            case .success(_):
+                                isTabViewShow.toggle()
+                            case .failure(let error):
+                                alertMessage = "Ошибка авторизации: \(error.localizedDescription)"
+                                isTabViewShow.toggle()
+                            }
+                        }
                     } else {
                         print("Регистрация пользователя")
 
@@ -125,7 +135,10 @@ struct AuthView: View {
         )
         .animation(Animation.easeInOut(duration: 0.2), value: isAuth)
         .fullScreenCover(isPresented: $isTabViewShow) {
-            MainTabBar()
+
+            var mainTabBarViewModel = MainTabBarViewModel(user: AuthService.shared.currentUser!)
+
+            MainTabBar(viewModel: mainTabBarViewModel)
         }
     }
 }
