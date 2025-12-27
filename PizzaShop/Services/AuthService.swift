@@ -28,7 +28,7 @@ class AuthService {
                                           name: "",
                                           phone: 0,
                                           address: "")
-                DatabaseService.shared.setupUser(user: userModel) { resultDb in
+                DatabaseService.shared.setProfile(user: userModel) { resultDb in
                     switch resultDb {
                     case .success(_):
                         completion(.success(result.user))
