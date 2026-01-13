@@ -27,5 +27,17 @@ struct PositionCell: View {
 }
 
 #Preview {
-    PositionCell(position: Position(id: UUID().uuidString, product: Product(id: UUID().uuidString, title: "Name", imageUrl: "pizzaBg", price: 200, description: "nil"), count: 0))
+    PositionCell(position: Position(
+            id: UUID().uuidString,
+            product: Product(
+                id: UUID().uuidString,
+                title: "Name",
+                imageUrl: "pizzaBg",
+                price: 200,
+                description: "nil"
+            ),
+            count: 1
+        )
+    )
 }
+

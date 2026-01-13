@@ -59,9 +59,15 @@ struct ProfileView: View {
             }
             .padding(.horizontal)
 
-            // Таблица с заказами
+            // Таблица с заказами новые
             List {
-                Text("Ваши заказы будут тут!")
+                if viewModel.orders.count == 0 {
+                    Text("Ваши заказы будут тут!")
+                } else {
+                    ForEach(viewModel.orders, id: \.id) { order in
+                        OrderCell(order: order)
+                    }
+                }
             }
             .listStyle(.plain)
 
@@ -92,6 +98,7 @@ struct ProfileView: View {
         }
         .onAppear {
             self.viewModel.getProfile()
+            self.viewModel.getOrders()
         }
     }
 }
