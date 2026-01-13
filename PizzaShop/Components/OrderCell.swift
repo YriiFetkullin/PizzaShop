@@ -10,7 +10,7 @@ import FirebaseFirestore
 
 struct OrderCell: View {
 
-    @State var order: Order = Order(id: "", userID: "", positions: [], date: Date(), status: "Новый")
+    var order: Order
 
     var body: some View {
         HStack {
@@ -25,6 +25,6 @@ struct OrderCell: View {
     }
 }
 
-#Preview {
-    OrderCell()
-}
+//#Preview {
+//    OrderCell()
+//}
