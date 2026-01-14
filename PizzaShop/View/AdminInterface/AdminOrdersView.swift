@@ -12,6 +12,7 @@ struct AdminOrdersView: View {
     @StateObject var viewModel = AdminOrdersViewModel()
     @State var isOrderViewShow = false
     @State var isShowAuthView = false
+    @State var isShowAddProductView = false
 
     var body: some View {
 
@@ -28,7 +29,7 @@ struct AdminOrdersView: View {
                 Spacer()
 
                 Button {
-                    print("Добавить товар")
+                    isShowAddProductView.toggle()
                 } label: {
                     Text("Добавить товар")
                         .foregroundStyle(Color.white)
@@ -67,6 +68,9 @@ struct AdminOrdersView: View {
         }
         .fullScreenCover(isPresented: $isShowAuthView) {
             AuthView()
+        }
+        .sheet(isPresented: $isShowAddProductView) {
+            AddProductView()
         }
     }
 }
