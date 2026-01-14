@@ -14,6 +14,7 @@ struct AddProductView: View {
     @State private var title: String = ""
     @State private var descr: String = ""
     @State private var price: Int? = nil
+    @Environment(\.dismiss) private var dismiss
 
     var body: some View {
         VStack {
@@ -34,11 +35,25 @@ struct AddProductView: View {
             TextField("Цена продукта", value: $price, format: .number)
                 .padding()
                 .keyboardType(.numberPad)
-            TextField("Описание продукта", text: $title)
+            TextField("Описание продукта", text: $descr)
                 .padding()
 
             Button {
-                print("Сохранить")
+                guard let price = price else {
+                    print("Невозможно извлечь цену из TextField")
+                    return
+                }
+                let product = Product(id: UUID().uuidString, title: title, price: price, description: descr)
+                guard let imageData = image.jpegData(compressionQuality: 0.15) else { return }
+                DatabaseService.shared.setProduct(product: product, image: imageData) { result in
+                    switch result {
+                    case .success(let product):
+                        print(product.title)
+                        dismiss()
+                    case .failure(let error):
+                        print(error.localizedDescription)
+                    }
+                }
             } label: {
                 Text("Сохранить")
                     .padding()
