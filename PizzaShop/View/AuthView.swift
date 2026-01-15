@@ -62,7 +62,7 @@ struct AuthView: View {
                                 isTabViewShow.toggle()
                             case .failure(let error):
                                 alertMessage = "Ошибка авторизации: \(error.localizedDescription)"
-                                isTabViewShow.toggle()
+                                isShowAlert = true
                             }
                         }
                     } else {
@@ -86,7 +86,7 @@ struct AuthView: View {
                                 self.isAuth.toggle()
                             case .failure(let error):
                                 alertMessage = "Ошибка регистрации \(error.localizedDescription)!"
-                                self.isShowAlert.toggle()
+                                isShowAlert = true
                             }
                         }
                     }
@@ -139,9 +139,9 @@ struct AuthView: View {
             if AuthService.shared.currentUser?.uid == "fhCZQbICQ0aKdhjrxYJQ1GBsSOl2" {
                 AdminOrdersView()
             } else {
-                let mainTabBarViewModel = MainTabBarViewModel(user: AuthService.shared.currentUser!)
-
-                MainTabBar(viewModel: mainTabBarViewModel)
+                if let user = AuthService.shared.currentUser {
+                    MainTabBar(viewModel: MainTabBarViewModel(user: user))
+                }
             }
         }
     }

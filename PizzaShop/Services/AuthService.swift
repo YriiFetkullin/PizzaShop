@@ -19,8 +19,8 @@ class AuthService {
         return auth.currentUser
     }
 
-    func signOut() {
-        try! auth.signOut()
+    func signOut() throws {
+        try auth.signOut()
     }
 
     func signUp(email: String,

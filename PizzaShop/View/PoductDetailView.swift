@@ -9,7 +9,7 @@ import SwiftUI
 
 struct ProductDetailView: View {
 
-    var viewModel: ProductDetailViewModel
+    @State var viewModel: ProductDetailViewModel
     @State var size = "Маленькая"
     @State var count = 1
 
@@ -19,7 +19,7 @@ struct ProductDetailView: View {
     var body: some View {
         VStack {
             VStack(alignment: .leading) {
-                Image("pizzaBg")
+                Image(uiImage: self.viewModel.image)
                     .resizable()
                     .frame(maxWidth: .infinity, maxHeight: 260)
                 HStack {
@@ -78,6 +78,9 @@ struct ProductDetailView: View {
             }
 
             Spacer()
+        }
+        .onAppear {
+            self.viewModel.getImage()
         }
     }
 }

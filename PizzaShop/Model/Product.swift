@@ -6,8 +6,10 @@
 //
 
 import Foundation
+import FirebaseFirestore
 
 struct Product {
+    
     var id: String
     var title: String
     var imageUrl: String = ""
@@ -15,6 +17,7 @@ struct Product {
     var description: String
 //    var ordersCount: Int
 //    var isRecommend: Bool
+
     var representation: [String: Any] {
         var repres = [String: Any]()
         repres["id"] = self.id
@@ -23,5 +26,30 @@ struct Product {
         repres["description"] = self.description
 
         return repres
+    }
+
+    internal init(id: String = UUID().uuidString,
+                  title: String,
+                  imageUrl: String = "",
+                  price: Int,
+                  description: String) {
+        self.id = id
+        self.title = title
+        self.imageUrl = imageUrl
+        self.price = price
+        self.description = description
+    }
+
+    init(doc: QueryDocumentSnapshot) {
+        let data = doc.data()
+        let id = data["id"] as! String
+        let title = data["title"] as! String
+        let price = data["price"] as! Int
+        let description = data["description"] as! String
+
+        self.id = id
+        self.title = title
+        self.price = price
+        self.description = description
     }
 }

@@ -19,8 +19,12 @@ struct AdminOrdersView: View {
         VStack {
             HStack {
                 Button {
-                    AuthService.shared.signOut()
-                    isShowAuthView.toggle()
+                    do {
+                        try AuthService.shared.signOut()
+                        isShowAuthView = true
+                    } catch {
+                        print("Ошибка выхода:", error.localizedDescription)
+                    }
                 } label: {
                     Text("Выход")
                         .foregroundStyle(Color.red)
